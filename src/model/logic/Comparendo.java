@@ -1,5 +1,6 @@
 package model.logic;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -48,6 +49,8 @@ public class Comparendo implements Comparable<Comparendo>{
 	 */
 
 	private String localidad;
+	
+	private String municipio;
 
 	/**
 	 * 
@@ -76,10 +79,19 @@ public class Comparendo implements Comparable<Comparendo>{
 	 * @param pLocalidad Localidad del comparendo.
 	 */
 
-	public Comparendo(int pObjectID, Date pFecha, String pMedioDete, String pClaseVehiculo, String pTipoServicio, String pInfraccion, String pDesInfraccion, String pLocalidad, double pLatitud, double pLongitud)
+	public Comparendo(int pObjectID, String pFecha, String pMedioDete, String pClaseVehiculo, String pTipoServicio, String pInfraccion, String pDesInfraccion, String pLocalidad, double pLatitud, double pLongitud, String pMunicipio)
 	{
+		try{
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); 
+		fecha = formatter.parse(pFecha);
+		}
+		catch(ParseException e)
+		{
+			e.getStackTrace();
+		}
+		
 		objectID = pObjectID;
-		fecha = pFecha; 
+		 
 		medioDete = pMedioDete;
 		claseVehiculo = pClaseVehiculo; 
 		tipoServicio = pTipoServicio; 
@@ -88,6 +100,7 @@ public class Comparendo implements Comparable<Comparendo>{
 		localidad = pLocalidad;
 		latitud =pLatitud; 
 		longitud = pLongitud;
+		municipio = pMunicipio;
 	}
 
 	// -----------------------------------------------------------------

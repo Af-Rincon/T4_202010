@@ -36,7 +36,18 @@ public class Controller {
 			int option = lector.nextInt();
 			switch(option){
 				case 1:
-											
+					modelo = new Modelo();
+
+					long start = System.currentTimeMillis();
+					modelo.cargarDatos(); 
+					long end = System.currentTimeMillis();
+
+
+					view.printMessage("Datos de comparendos cargados.");
+					view.printMessage("Numero total de comparendos " + modelo.darTamanoCola() + "\n---------");		
+					view.printMessage("Tiempo de carga (seg): " + (end-start)/1000.0 + "\n---------");
+					view.printMessage("El comparendo con mayor OBJECTID es:");
+					
 					break;
 
 				case 2:
