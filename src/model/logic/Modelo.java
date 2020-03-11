@@ -3,6 +3,8 @@ package model.logic;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -37,7 +39,7 @@ public class Modelo {
 	{
 		datos = new Queue<Comparendo>();
 		heap = new MaxHeapCP<Comparendo>();
-		
+
 	}
 
 
@@ -46,7 +48,7 @@ public class Modelo {
 		return datos.darTamano();
 	}
 
-	
+
 
 	public void cargarDatos() 
 
@@ -68,7 +70,7 @@ public class Modelo {
 			for(JsonElement e: e2) {
 				int OBJECTID = e.getAsJsonObject().get("properties").getAsJsonObject().get("OBJECTID").getAsInt();
 
-				
+
 				String FECHA_HORA = e.getAsJsonObject().get("properties").getAsJsonObject().get("FECHA_HORA").getAsString();
 
 				String MEDIO_DETE = e.getAsJsonObject().get("properties").getAsJsonObject().get("MEDIO_DETECCION").getAsString();
@@ -88,14 +90,38 @@ public class Modelo {
 				Comparendo c = new Comparendo(OBJECTID, FECHA_HORA, MEDIO_DETE, CLASE_VEHI, TIPO_SERVI, INFRACCION,DES_INFRAC, LOCALIDAD, longitud, latitud, MUNICIPIO);
 				datos.enqueue(c);
 
-				
+
 			}
 
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-
-
 	}
+	
+	public Comparendo[] copiarDatos()
+	{
+		Comparendo[] comparendos = new Comparendo[datos.darTamano()];
+		int i = 0;
+		for(Comparendo e : datos)
+		{
+			comparendos[i] = e;
+			i++;
+		}
+		return comparendos;
+	}
+	
+	public void  shuffle(Comparendo[] total)
+	{
+		Random rnd = ThreadLocalRandom.current();
+		  for (int i = total.length - 1; i > 0; i--)
+		    {
+		      int index = rnd.nextInt(i + 1);
+		      // Simple swap
+		      Comparendo a = total[index];
+		      total[index] = total[i];
+		      total[i] = a;
+		    }
+	}
+
 }

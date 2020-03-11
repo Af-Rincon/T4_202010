@@ -1,6 +1,9 @@
 package model.data_structures;
 
-public class Queue<T> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Queue<T> implements Iterable<T>{
 	private Node<T> primero;
 	private Node<T> ultimo;
 	private int size;
@@ -55,4 +58,45 @@ public class Queue<T> {
 		return ultimo.darItem();
 	}
 
+	protected class MiIteradorNodo implements Iterator<T>
+	{
+		Node<T> actual;
+		T value;
+
+		public MiIteradorNodo()
+		{
+			actual = primero;
+			value = null;
+		}
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return (actual!=null);
+		}
+
+		@Override
+		public T next() {
+			// TODO Auto-generated method stub
+			if(!hasNext())
+			{
+				throw new NoSuchElementException();
+			}
+			else
+			{
+				value = actual.darItem();
+				actual = actual.darSiguiente();
+
+			}
+			return value;
+		}
+
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		// TODO Auto-generated method stub
+		return new MiIteradorNodo();
+	}
+
+	
 }

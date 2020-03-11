@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Comparendo implements Comparable<Comparendo>{
+public class Comparendo implements Comparable<Comparendo> {
 
 	private int objectID;
 
