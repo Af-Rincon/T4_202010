@@ -98,13 +98,15 @@ public class Comparendo implements Comparable<Comparendo> {
 		infraccion = pInfraccion;
 		descripInfraccion = pDesInfraccion;
 		localidad = pLocalidad;
+		
 		latitud =pLatitud; 
 		longitud = pLongitud;
+		
 		municipio = pMunicipio;
 	}
 
 	// -----------------------------------------------------------------
-	// Métodos
+	// Mï¿½todos
 	// -----------------------------------------------------------------
 
 	public int darObjectID()
@@ -147,6 +149,11 @@ public class Comparendo implements Comparable<Comparendo> {
 		return localidad;
 	}
 	
+	public double darLatitud()
+	{
+		return latitud;
+	}
+	
 	public String darSimpleDate()
 	{
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
@@ -168,98 +175,35 @@ public class Comparendo implements Comparable<Comparendo> {
 	}
 	
 	
+	public String datosCluster2()
+	{
+		return "OBJECTID:" + objectID + "CLASE VEHICULO:" + claseVehiculo + "Latitud:" + latitud + "Longitud:" + longitud ;
+	}
+	
+	
 	@Override
-	public int compareTo(Comparendo o) {
-		int num = 0;
-		if(fecha.before(o.darFecha()))
-		{
-			num = -1;
-		}
-		if(fecha.after(o.darFecha()))
-		{
-			num = 1;
-		}
-		if(fecha.equals(o.darFecha()))
-		{
-			num = 0;
-		}
-		if(num==0)
-		{
-			if(objectID<o.darObjectID())
-			{
-				num = -1;
-			}
-			if(objectID>o.darObjectID())
-			{
-				num = 1;
-			}
-			if(objectID==o.darObjectID())
-			{
-				num = 0;
-			}
-		}
-		return num;
-	}
-	
-	
-	public int compararPorInfraccion(Comparendo c1)
+	public int compareTo(Comparendo comparendo) 
 	{
-		int  num = infraccion.compareToIgnoreCase(c1.darInfraccion());
 		
-		if(num > 0)
-			num = 1;
+		double l1 = latitud;
+		double l2 = comparendo.darLatitud();
 		
-		if(num < 0)
-			num = -1;
-		
-		if(num == 0)
+		if(l1 >l2)
 		{
-			if(objectID<c1.darObjectID())
-			{
-				num = -1;
-			}
-			if(objectID>c1.darObjectID())
-			{
-				num = 1;
-			}
-			if(objectID==c1.darObjectID())
-			{
-				num = 0;
-			}
+			return 1;
 		}
 		
-		return num;
-	
+		else if(l1 < l2)
+		{
+			return -1;
+		}
+		
+		else
+		{
+			return 0;
+		}
 	}
+	
 
-	
-	public int compararPorLocalidad(Comparendo c1)
-	{
-		int  num = localidad.compareToIgnoreCase(c1.darLocalidad());
-		
-		if(num > 0)
-			num = 1;
-		
-		if(num < 0)
-			num = -1;
-		
-		if(num == 0)
-		{
-			if(objectID<c1.darObjectID())
-			{
-				num = -1;
-			}
-			if(objectID>c1.darObjectID())
-			{
-				num = 1;
-			}
-			if(objectID==c1.darObjectID())
-			{
-				num = 0;
-			}
-		}
-		
-		return num;
-	
-	}
+
 }

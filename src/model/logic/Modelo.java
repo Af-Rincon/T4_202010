@@ -2,6 +2,7 @@ package model.logic;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,16 +14,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
+import model.data_structures.LinkedList;
 import model.data_structures.MaxColaCP;
 import model.data_structures.MaxHeapCP;
 import model.data_structures.Queue;
+import model.data_structures.*;
 
 /**
  * Definicion del modelo del mundo
  *
  */
 public class Modelo {
-	public static String PATH = "./data/Comparendos_DEI_2018_Bogotá_D.C.geojson";
+	public static String PATH = "./data/Comparendos_DEI_2018_BogotÃ¡_D.C.geojson";
 
 	/**
 	 * Atributos del modelo del mundo
@@ -65,7 +68,7 @@ public class Modelo {
 			JsonArray e2 = elem.getAsJsonObject().get("features").getAsJsonArray();
 
 
-			SimpleDateFormat parser=new SimpleDateFormat("yyyy/MM/dd");
+			SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
 			for(JsonElement e: e2) {
 				int OBJECTID = e.getAsJsonObject().get("properties").getAsJsonObject().get("OBJECTID").getAsInt();
@@ -98,7 +101,7 @@ public class Modelo {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Comparendo[] copiarDatos()
 	{
 		Comparendo[] comparendos = new Comparendo[datos.darTamano()];
@@ -110,18 +113,69 @@ public class Modelo {
 		}
 		return comparendos;
 	}
-	
+
+
 	public void  shuffle(Comparendo[] total)
 	{
 		Random rnd = ThreadLocalRandom.current();
-		  for (int i = total.length - 1; i > 0; i--)
-		    {
-		      int index = rnd.nextInt(i + 1);
-		      // Simple swap
-		      Comparendo a = total[index];
-		      total[index] = total[i];
-		      total[i] = a;
-		    }
+		for (int i = total.length - 1; i > 0; i--)
+		{
+			int index = rnd.nextInt(i + 1);
+			// Simple swap
+			Comparendo a = total[index];
+			total[index] = total[i];
+			total[i] = a;
+		}
 	}
+
+
+
+	public MaxHeapCP<Comparendo> cargarMuestraParaHeap(int N)
+	{
+		MaxHeapCP<Comparendo> heap =  new MaxHeapCP<Comparendo>();
+		Comparendo[] copia = copiarDatos();
+		shuffle(copia);
+
+		for(int i = 1; i <= N; i++ )
+		{
+			heap.agregar(copia[i]);
+		}
+
+		return heap;
+	}
+
+
+	public ArrayList<Comparendo> darNComparendosMasNorteHeap(int N, String[] tiposVehiculo)
+	{
+		ArrayList<Comparendo> aRetornar = new ArrayList<Comparendo>();
+		MaxHeapCP<Comparendo> muestraHeap = cargarMuestraParaHeap(datos.darTamano()-1);
+
+
+
+		int i = 0;
+		while(i < muestraHeap.darNumElementos() && aRetornar.size() < N)
+		{
+			Comparendo maximo = muestraHeap.sacarMax();
+
+			for(int j= 0; j < tiposVehiculo.length; j++)
+			{
+				if(maximo.darClaseVehiculo().equals(tiposVehiculo[j]))
+				{
+					aRetornar.add(maximo);
+				}
+			}
+
+			i++;
+		}
+
+
+		return aRetornar;
+	}
+
+
+
+
+
+
 
 }
