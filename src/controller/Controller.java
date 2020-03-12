@@ -82,13 +82,13 @@ public class Controller {
 					
 					long start2 = System.currentTimeMillis();
 					ArrayList<Comparendo> buscados = modelo.darNComparendosMasNorteHeap(numero, tipos);
+					long end2 = System.currentTimeMillis();
+					view.printMessage("Tiempo de carga (seg): " + (end2-start2)/1000.0 + "\n---------");
 					
 					for(int i = 0; i < buscados.size(); i++)
 					{
 						view.printMessage(buscados.get(i).datosCluster2());
 					}
-					long end2 = System.currentTimeMillis();
-					view.printMessage("Tiempo de carga (seg): " + (end2-start2)/1000.0 + "\n---------");
 					
 					break;
 
