@@ -143,6 +143,21 @@ public class Modelo {
 
 		return heap;
 	}
+	
+	public MaxColaCP<Comparendo> cargarMuestraParaCola(int N)
+	{
+		MaxColaCP<Comparendo> cola =  new MaxColaCP<Comparendo>();
+		Comparendo[] copia = copiarDatos();
+		shuffle(copia);
+
+		for(int i = 1; i <= N; i++ )
+		{
+			cola.agregar(copia[i]);
+		}
+
+		return cola;
+	}
+
 
 
 	public ArrayList<Comparendo> darNComparendosMasNorteHeap(int N, String[] tiposVehiculo)
